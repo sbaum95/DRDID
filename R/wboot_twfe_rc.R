@@ -13,7 +13,7 @@ wboot_twfe_rc <- function(nn, n, y, dd, post, x, i.weights){
     reg.b <- stats::glm(y ~  dd:post + post + dd + x + offset(n), family = poisson(link = "log))
   } else{
     #reg.b <- stats::lm(y ~  dd:post + post + dd, weights = b.weights)
-    reg.b <- stats::lm(y ~  dd:post + post + dd + offset(n), family = poisson(link = "log))
+    reg.b <- stats::glm(y ~  dd:post + post + dd + offset(n), family = poisson(link = "log))
   }
   twfe.att.b <- reg.b$coefficients["dd:post"]
   #-----------------------------------------------------------------------------
