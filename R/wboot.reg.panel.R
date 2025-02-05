@@ -1,7 +1,7 @@
 # Bootrstapped Regression-based Robust Difference-in-Differences with Panel Data
 # 2 periods and 2 groups
 
-wboot.reg.panel <- function(nn, n, deltaY, D, int.cov, i.weights){
+wboot.reg.panel <- function(nn, n, deltaY, D, offset, int.cov, i.weights){
   #-----------------------------------------------------------------------------
   v <- stats::rexp(n)
   #v <- v / mean(v)
