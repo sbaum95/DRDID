@@ -25,8 +25,9 @@ wboot_drdid_rc <- function(nn, n, y, post, D, int.cov, i.weights){
   reg.coeff.pre.b <- stats::coef(fastglm::fastglm(
                                   x = int.cov[control_pre, , drop = FALSE],
                                   y = y[control_pre],
-                                  weights = b.weights[control_pre],
-                                  family = gaussian(link = "identity")
+                                  #weights = b.weights[control_pre],
+                                  offset = n, 
+                                  family = poisson(link = "log")
   ))
   out.y.cont.pre.b <-   as.vector(tcrossprod(reg.coeff.pre.b, int.cov))
   #Compute the Outcome regression for the control group at the pre-treatment period, using ols.
@@ -37,8 +38,9 @@ wboot_drdid_rc <- function(nn, n, y, post, D, int.cov, i.weights){
   reg.coeff.post.b <- stats::coef(fastglm::fastglm(
                                   x = int.cov[control_post, , drop = FALSE],
                                   y = y[control_post],
-                                  weights = b.weights[control_post],
-                                  family = gaussian(link = "identity")
+                                  #weights = b.weights[control_post],
+                                  offset = n, 
+                                  family = poisson(link = "log")
   ))
   out.y.cont.post.b <-   as.vector(tcrossprod(reg.coeff.post.b, int.cov))
 
@@ -51,8 +53,9 @@ wboot_drdid_rc <- function(nn, n, y, post, D, int.cov, i.weights){
   reg.treat.coeff.pre.b <- stats::coef(fastglm::fastglm(
                                   x = int.cov[treat_pre, , drop = FALSE],
                                   y = y[treat_pre],
-                                  weights = b.weights[treat_pre],
-                                  family = gaussian(link = "identity")
+                                  #weights = b.weights[treat_pre],
+                                  offset = n, 
+                                  family = poisson(link = "log")
   ))
   out.y.treat.pre.b <-   as.vector(tcrossprod(reg.treat.coeff.pre.b, int.cov))
   #Compute the Outcome regression for the treated group at the post-treatment period, using ols.
@@ -63,8 +66,9 @@ wboot_drdid_rc <- function(nn, n, y, post, D, int.cov, i.weights){
   reg.treat.coeff.post.b <- stats::coef(fastglm::fastglm(
                                   x = int.cov[treat_post, , drop = FALSE],
                                   y = y[treat_post],
-                                  weights = b.weights[treat_post],
-                                  family = gaussian(link = "identity")
+                                  #weights = b.weights[treat_post],
+                                  offset = n, 
+                                  family = poisson(link = "log")
   ))
   out.y.treat.post.b <-   as.vector(tcrossprod(reg.treat.coeff.post.b, int.cov))
 
