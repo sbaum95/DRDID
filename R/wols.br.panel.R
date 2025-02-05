@@ -16,7 +16,7 @@ wols.br.panel <- function(deltaY, D, int.cov, pscore, i.weights){
                             x = int.cov[control_filter, , drop = FALSE],
                             y = deltaY[control_filter],
                             offset = n, 
-                            weights = i.weights[control_filter],
+                            #weights = i.weights[control_filter],
                             family = poisson(link = "log")
   ))
 
