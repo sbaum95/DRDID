@@ -67,7 +67,7 @@ NULL
 #'
 #' @export
 
-drdid_panel <-function(y1, y0, D, covariates, i.weights = NULL,
+drdid_panel <-function(y1, y0, D, covariates, offset, i.weights = NULL,
                        boot = FALSE, boot.type =  "weighted", nboot = NULL,
                        inffunc = FALSE){
   #-----------------------------------------------------------------------------
@@ -77,6 +77,8 @@ drdid_panel <-function(y1, y0, D, covariates, i.weights = NULL,
   n <- length(D)
   # generate deltaY
   deltaY <- as.vector(y1 - y0)
+  # Offset
+  offset <- as.vector(offset)
   # Covariate vector
   if(is.null(covariates)){
     int.cov <- as.matrix(rep(1,n))
@@ -127,7 +129,7 @@ drdid_panel <-function(y1, y0, D, covariates, i.weights = NULL,
   reg.coeff <- stats::coef(fastglm::fastglm(
     x = int.cov[control_filter, , drop = FALSE],
     y = deltaY[control_filter],
-    offset = n,
+    offset = offset,
     family =  stats::poisson(link = "log")
   ))
   if(anyNA(reg.coeff)){
