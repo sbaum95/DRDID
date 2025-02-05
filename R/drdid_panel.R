@@ -121,13 +121,14 @@ drdid_panel <-function(y1, y0, D, covariates, i.weights = NULL,
   # Avoid divide by zero
   ps.fit <- pmin(ps.fit, 1 - 1e-6)
   W <- ps.fit * (1 - ps.fit) * i.weights
+  
   # Compute the Outcome regression for the control group using wols
   control_filter <- (D == 0)
   reg.coeff <- stats::coef(fastglm::fastglm(
     x = int.cov[control_filter, , drop = FALSE],
     y = deltaY[control_filter],
-    weights = i.weights[control_filter],
-    family =  stats::gaussian(link = "identity")
+    offset = n,
+    family =  stats::poisson(link = "log")
   ))
   if(anyNA(reg.coeff)){
     stop("Outcome regression model coefficients have NA components. \n Multicollinearity (or lack of variation) of covariates is a likely reason.")
