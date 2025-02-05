@@ -31,7 +31,7 @@ wols_rc <- function(y, post, D, int.cov, pscore, i.weights, pre = NULL, treat = 
                           x = int.cov[subs_filter, , drop = FALSE],
                           y = y[subs_filter],
                           offset = n, 
-                          weights = or.weights[subs_filter],
+                          # weights = or.weights[subs_filter],
                           family = poisson(link = "log")
   ))
 
