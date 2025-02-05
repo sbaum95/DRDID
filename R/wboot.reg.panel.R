@@ -15,8 +15,9 @@ wboot.reg.panel <- function(nn, n, deltaY, D, int.cov, i.weights){
   reg.coeff.b <- stats::coef(fastglm::fastglm(
                               x = int.cov[control_filter, , drop = FALSE],
                               y = deltaY[control_filter],
-                              weights = b.weights[control_filter],
-                              family = gaussian(link = "identity")
+                              #weights = b.weights[control_filter],
+                              offset = n, 
+                                  family = poisson(link = "log")
   ))
   out.reg.b <- as.vector(tcrossprod(reg.coeff.b, int.cov))
   # Compute OR estimator
