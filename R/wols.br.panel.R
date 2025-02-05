@@ -15,8 +15,9 @@ wols.br.panel <- function(deltaY, D, int.cov, pscore, i.weights){
   beta.cal <- stats::coef(fastglm::fastglm(
                             x = int.cov[control_filter, , drop = FALSE],
                             y = deltaY[control_filter],
+                            offset = n, 
                             weights = i.weights[control_filter],
-                            family = gaussian(link = "identity")
+                            family = poisson(link = "log")
   ))
 
   if(anyNA(beta.cal)){
