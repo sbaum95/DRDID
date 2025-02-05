@@ -170,7 +170,8 @@ pre_process_drdid <- function(yname,
                                     stats::model.frame(xformla,
                                                        data = dta,
                                                        na.action=na.pass) )
-
+  # offset for poisson regression
+  dta$n <- dta[, offset]
   #check if covariates and group are time invariant in the panel data case.
   # matrix of covariates for pre-period and post periods
   covariates_pre <- stats::model.matrix(xformla,
@@ -224,7 +225,8 @@ pre_process_drdid <- function(yname,
                                D = dta$D,
                                post = dta$post,
                                w = dta$w,
-                               covariates))
+                               covariates, 
+                               offset = dta$n))
 
     # Check if we have missing values
     missing_X_flag <- base::anyNA(dta[,-c(1:4)])
@@ -264,6 +266,7 @@ pre_process_drdid <- function(yname,
                 y0 = subset(dta$y, dta$post==0),
                 D = subset(dta$D, dta$post==1),
                 covariates = subset(covariates, dta$post==1),
+                offset = subset(offset, dta$post==1),
                 # Normalize weights
                 i.weights = subset(dta$w, dta$post==1)/mean(subset(dta$w, dta$post==1)),
                 panel = panel,
@@ -282,7 +285,8 @@ pre_process_drdid <- function(yname,
                                D = dta$D,
                                post = dta$post,
                                w = dta$w,
-                               covariates))
+                               covariates, 
+                              offset = dta$n))
 
     # Check if we have missing values
     missing_X_flag <- base::anyNA(dta[,-c(1:4)])
@@ -315,6 +319,7 @@ pre_process_drdid <- function(yname,
                 D = dta$D,
                 post = dta$post,
                 covariates = covariates,
+                offset = offset, 
                 # Normalize weights
                 i.weights = dta$w/mean(dta$w),
                 panel = panel,
