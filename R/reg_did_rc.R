@@ -95,8 +95,9 @@ reg_did_rc <-function(y, post, D, covariates, i.weights = NULL,
   reg.coeff.pre <- stats::coef(fastglm::fastglm(
                         x = int.cov[pre_filter, , drop = FALSE],
                         y = y[pre_filter],
-                        weights = i.weights[pre_filter],
-                        family = gaussian(link = "identity")
+                        #weights = i.weights[pre_filter],
+                        offset = n, 
+                                  family = poisson(link = "log")
   ))
   if(anyNA(reg.coeff.pre)){
     stop("Outcome regression model coefficients have NA components. \n Multicollinearity of covariates is probably the reason for it.")
@@ -111,8 +112,9 @@ reg_did_rc <-function(y, post, D, covariates, i.weights = NULL,
   reg.coeff.post <- stats::coef(fastglm::fastglm(
                           x = int.cov[post_filter, , drop = FALSE],
                           y = y[post_filter],
-                          weights = i.weights[post_filter],
-                          family = gaussian(link = "identity")
+                          #weights = i.weights[post_filter],
+                          offset = n, 
+                                  family = poisson(link = "log")
   ))
   if(anyNA(reg.coeff.post)){
     stop("Outcome regression model coefficients have NA components. \n Multicollinearity (or lack of variation) of covariates is probably the reason for it.")
