@@ -85,7 +85,7 @@ NULL
 
 #' @export
 
-drdid_imp_panel <-function(y1, y0, D, covariates, i.weights = NULL, boot = FALSE, boot.type = "weighted",
+drdid_imp_panel <-function(y1, y0, D, covariates, offset, i.weights = NULL, boot = FALSE, boot.type = "weighted",
                            nboot = NULL, inffunc = FALSE){
   #-----------------------------------------------------------------------------
   # D as vector
@@ -94,6 +94,8 @@ drdid_imp_panel <-function(y1, y0, D, covariates, i.weights = NULL, boot = FALSE
   n <- length(D)
   # generate deltaY
   deltaY <- as.vector(y1 - y0)
+  # Offset
+  offset <- as.vector(offset)
   # Covariate Vector
   if(is.null(covariates)){
     int.cov <- as.matrix(rep(1,n))
@@ -114,7 +116,7 @@ drdid_imp_panel <-function(y1, y0, D, covariates, i.weights = NULL, boot = FALSE
   ps.fit <- as.vector(pscore.ipt$pscore)
   ps.fit <- pmin(ps.fit, 1 - 1e-6)
   #Compute the Outcome regression for the control group
-  outcome.reg <- wols.br.panel(deltaY, D, int.cov, ps.fit, i.weights)
+  outcome.reg <- wols.br.panel(deltaY, D, int.cov, offset, ps.fit, i.weights)
   out.delta <-  as.vector(outcome.reg$out.reg)
 
   #Compute Bias-Reduced Doubly Robust DiD estimators
