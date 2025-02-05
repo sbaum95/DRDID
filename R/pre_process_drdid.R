@@ -7,6 +7,7 @@ pre_process_drdid <- function(yname,
                               tname,
                               idname,
                               dname,
+                              offset, 
                               xformla = NULL,
                               data,
                               panel = TRUE,
@@ -165,6 +166,8 @@ pre_process_drdid <- function(yname,
   dta$D <- dta[, dname]
   # Post dummy will be denoted by post
   dta$post <- as.numeric(dta[,tname] == tlist[2])
+  # offset will be denoted by offset
+  dta$offset <- dta[, offset]
   # matrix of covariates
   covariates <- stats::model.matrix(xformla,
                                     stats::model.frame(xformla,
@@ -226,7 +229,7 @@ pre_process_drdid <- function(yname,
                                post = dta$post,
                                w = dta$w,
                                covariates, 
-                               offset = dta$n))
+                               offset = dta$offset))
 
     # Check if we have missing values
     missing_X_flag <- base::anyNA(dta[,-c(1:4)])
@@ -286,7 +289,7 @@ pre_process_drdid <- function(yname,
                                post = dta$post,
                                w = dta$w,
                                covariates, 
-                              offset = dta$n))
+                              offset = dta$offset))
 
     # Check if we have missing values
     missing_X_flag <- base::anyNA(dta[,-c(1:4)])
