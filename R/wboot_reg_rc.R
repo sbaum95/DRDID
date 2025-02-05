@@ -15,8 +15,9 @@ wboot_reg_rc <- function(nn, n, y, post, D, int.cov, i.weights){
   reg.coeff.pre.b <- stats::coef(fastglm::fastglm(
                                   x = int.cov[control_pre, , drop = FALSE],
                                   y = y[control_pre],
-                                  weights = b.weights[control_pre],
-                                  family = gaussian(link = "identity")
+                                  # weights = b.weights[control_pre],
+                                  offset = n, 
+                                  family = poisson(link = "log")
   ))
   # reg.coeff.post.b <- stats::coef(stats::lm(y ~ -1 + int.cov,
   #                                           subset = ((D==0) & (post==1)),
