@@ -111,8 +111,9 @@ reg_did_panel <-function(y1, y0, D, covariates, i.weights = NULL,
   reg.coeff <- stats::coef(fastglm::fastglm(
                             x = int.cov[control_filter, , drop = FALSE],
                             y = deltaY[control_filter],
-                            weights = i.weights[control_filter],
-                            family = gaussian(link = "identity")
+                            #weights = i.weights[control_filter],
+                            offset = n, 
+                                  family = poisson(link = "log")
   ))
   if(anyNA(reg.coeff)){
     stop("Outcome regression model coefficients have NA components. \n Multicollinearity (or lack of variation) of covariates is probably the reason for it.")
