@@ -2,7 +2,7 @@
 # Compute Weighted OLS regression parameters for the Improved Doubly-Robust DID estimator with Panel Data
 
 
-wols.br.panel <- function(deltaY, D, int.cov, pscore, i.weights){
+wols.br.panel <- function(deltaY, D, int.cov, offset, pscore, i.weights){
   #-----------------------------------------------------------------------------
 
   i.weights <- as.vector(i.weights * pscore/(1 - pscore))
@@ -15,7 +15,7 @@ wols.br.panel <- function(deltaY, D, int.cov, pscore, i.weights){
   beta.cal <- stats::coef(fastglm::fastglm(
                             x = int.cov[control_filter, , drop = FALSE],
                             y = deltaY[control_filter],
-                            offset = n, 
+                            offset = offset, 
                             #weights = i.weights[control_filter],
                             family = poisson(link = "log")
   ))
