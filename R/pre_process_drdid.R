@@ -174,7 +174,7 @@ pre_process_drdid <- function(yname,
                                                        data = dta,
                                                        na.action=na.pass) )
   # offset for poisson regression
-  dta$n <- dta[, offset]
+  dta$offset <- dta[, offset]
   #check if covariates and group are time invariant in the panel data case.
   # matrix of covariates for pre-period and post periods
   covariates_pre <- stats::model.matrix(xformla,
