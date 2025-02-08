@@ -129,7 +129,7 @@ drdid_panel <-function(y1, y0, D, covariates, offset, i.weights = NULL,
   reg.coeff <- stats::coef(fastglm::fastglm(
     x = int.cov[control_filter, , drop = FALSE],
     y = deltaY[control_filter],
-    offset = offset,
+    offset = offset[control_filter],
     family =  stats::poisson(link = "log")
   ))
   if(anyNA(reg.coeff)){
