@@ -121,7 +121,7 @@ pre_process_drdid <- function(yname,
     if (! n_id_year) stop("The value of idname must be the unique (by tname)")
 
     # Check if dname is unique by idname
-    checkTreatmentUniqueness(dta, idname, dname)
+    #checkTreatmentUniqueness(dta, idname, dname)
   }
 
   # figure out the time periods
@@ -228,8 +228,9 @@ pre_process_drdid <- function(yname,
                                D = dta$D,
                                post = dta$post,
                                w = dta$w,
-                               covariates, 
-                               offset = dta$offset))
+                               offset = dta$offset,
+                               covariates
+                               ))
 
     # Check if we have missing values
     missing_X_flag <- base::anyNA(dta[,-c(1:4)])
@@ -247,7 +248,7 @@ pre_process_drdid <- function(yname,
 
     # Remove NAs
     dta <- dta[stats::complete.cases(dta), ]
-    covariates <- base::as.matrix(dta[,-c(1:4)])
+    covariates <- base::as.matrix(dta[,-c(1:5)])
     # Drop collinear covariates
     qr.covariates <-  base::qr(covariates,
                                tol=1e-6,
